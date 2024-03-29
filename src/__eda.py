@@ -16,8 +16,23 @@ class Diabetes:
     def __dataset_description(self):
         self.df.describe().to_csv(r'C:\Users\shrut\OneDrive\Pictures\wallpapers\Documents\Projects\Data-Analysis-With-Pima-Diabetes-Dataset\output\results\dataset_description.csv')
 
+    def __freq(self):
+        for feature in self.feature_list:
+            pd.DataFrame(self.df[feature].value_counts()).to_csv(r'C:\Users\shrut\OneDrive\Pictures\wallpapers\Documents\Projects\Data-Analysis-With-Pima-Diabetes-Dataset\output\results\freq.csv',mode='a')
+            
+    def __mean(self):
+        self.mean = self.df.mean(numeric_only=True,skipna=True)
+        self.mean.to_csv(r'C:\Users\shrut\OneDrive\Pictures\wallpapers\Documents\Projects\Data-Analysis-With-Pima-Diabetes-Dataset\output\results\mean.csv')
+    def __median(self):
+        self.median = self.df.median(numeric_only=True,skipna=True)
+        self.median.to_csv(r'C:\Users\shrut\OneDrive\Pictures\wallpapers\Documents\Projects\Data-Analysis-With-Pima-Diabetes-Dataset\output\results\median.csv')
+        
     def analysis(self):
         self.__dataset_description()
+        self.__mean()
+        self.__median()
+        #self.__freq()
+        
         
 
 
