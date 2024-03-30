@@ -130,13 +130,20 @@ class Diabetes:
     def __MinMax_Scaler(self):
         self.scaler = MinMaxScaler()
         self.df_scaled = self.scaler.fit_transform(self.df)
-        pd.DataFrame(self.df_scaled,columns=self.df.columns).to_csv(r'.\Data-Analysis-With-Pima-Diabetes-Dataset\datasets\cleaned_dataset.csv')       
+        pd.DataFrame(self.df_scaled,columns=self.df.columns).to_csv(r'.\Data-Analysis-With-Pima-Diabetes-Dataset\datasets\cleaned_dataset.csv')
+    
+    def __std_scaler(self):
+        self.scaler = StandardScaler()
+        self.df_scaled = self.scaler.fit_transform(self.df)
+        pd.DataFrame(self.df_scaled,columns=self.feature_list).to_csv(r'.\Data-Analysis-With-Pima-Diabetes-Dataset\datasets\cleaned_dataset.csv')       
     def analysis(self):
+        
         self.__dataset_description()
         self.__mean()
         self.__median()
         #self.__freq()
         self.__mode()
+        self.__std()
         self.__fill_nulls()
         self.__boxplot()
         self.__skewness()
@@ -149,6 +156,8 @@ class Diabetes:
         self.__heatmap()
         self.__drop_features()
         self.__MinMax_Scaler()
+        #self.__std_scaler()
+         
 
 if __name__ == '__main__':
     db = Diabetes()
