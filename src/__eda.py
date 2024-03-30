@@ -1,7 +1,8 @@
 import os
 import sys
 sys.path.append(os.getcwd())
-
+dirname = os.path.dirname(__file__)
+filename = os.path.join(dirname, r'.\Data-Analysis-With-Pima-Diabetes-Dataset')
 import numpy as np
 import pandas as pd
 import matplotlib.pylab as mpl
@@ -13,6 +14,7 @@ from sklearn.preprocessing import MinMaxScaler
 from sklearn.preprocessing import StandardScaler
 
 sns.set_palette(palette='deep')
+sns.set_style('whitegrid')
 
 class Diabetes:
     def __init__(self):
@@ -105,8 +107,30 @@ class Diabetes:
         self.corr.to_csv(r'.\Data-Analysis-With-Pima-Diabetes-Dataset\output\results\corr.csv')
     
     def __scatter(self):
-        pass
+        fig,axes= plt.subplots(8,8,figsize=(30,50),squeeze=False,layout='constrained')
+        for i in range(8):
+            for j in range(8):
+                x = self.df[self.feature_list[i]]
+                y = self.df[self.feature_list[j]]
+                label = self.df.Outcome
+                m,b= np.polyfit(x,y,1)
+                sns.scatterplot(x=x,y=y,hue=label,palette='crest',ax=axes[i][j])
+                axes[i][j].plot(x,m*x+b,linewidth=2,color='black')
+        plt.savefig(r'.\Data-Analysis-With-Pima-Diabetes-Dataset\output\img\scatterplot.png')
         
+    
+    def __heatmap(self):
+        fig,axes=plt.subplots(1,1,figsize=(10,8),squeeze=False)
+        sns.heatmap(self.corr,center=0, annot=True,fmt='.2f',cmap=sns.cubehelix_palette(as_cmap=True))
+        plt.savefig(r'.\Data-Analysis-With-Pima-Diabetes-Dataset\output\img\heatmap.png')    
+    
+    def __drop_features(self):
+        self.df.drop(columns=['SkinThickness'],inplace=True)
+    
+    def __MinMax_Scaler(self):
+        self.scaler = MinMaxScaler()
+        self.df_scaled = self.scaler.fit_transform(self.df)
+        pd.DataFrame(self.df_scaled,columns=self.df.columns).to_csv(r'.\Data-Analysis-With-Pima-Diabetes-Dataset\datasets\cleaned_dataset.csv')       
     def analysis(self):
         self.__dataset_description()
         self.__mean()
@@ -119,9 +143,12 @@ class Diabetes:
         self.__kurtosis()
         self.__normal_distr()
         self.__outlier_remove()
-        
-
-        
+        self.__cov()
+        self.__corr()
+        self.__scatter()
+        self.__heatmap()
+        self.__drop_features()
+        self.__MinMax_Scaler()
 
 if __name__ == '__main__':
     db = Diabetes()
