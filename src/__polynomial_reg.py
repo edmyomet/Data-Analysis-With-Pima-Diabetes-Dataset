@@ -2,7 +2,7 @@ import os
 import sys
 sys.path.append(os.getcwd())
 dirname = os.path.dirname(__file__)
-filename = os.path.join(dirname, r'.\Data-Analysis-With-Pima-Diabetes-Dataset')
+filename = os.path.join(dirname, r'.')
 import numpy as np
 import pandas as pd
 import matplotlib.pylab as mpl
@@ -20,7 +20,7 @@ from sklearn.metrics import mean_absolute_error,mean_squared_error,r2_score
 
 class PolyReg:
     def __init__(self):
-        self.df = pd.read_csv(r'.\Data-Analysis-With-Pima-Diabetes-Dataset\datasets\cleaned_dataset.csv')
+        self.df = pd.read_csv(r'.\datasets\cleaned_dataset.csv')
         self.feature_list = self.df.columns
         self.X = self.df.iloc[:,:-1]
         self.y = self.df.iloc[:,-1:]
